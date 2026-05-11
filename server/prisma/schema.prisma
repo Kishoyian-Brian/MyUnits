@@ -1,0 +1,232 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+//
+// USERS
+//
+
+model User {
+  id                     String      @id @default(uuid())
+
+  fullName               String
+
+  email                  String      @unique
+  password               String
+
+  phoneNumber            String?     @unique
+
+  role                   UserRole    @default(LANDLORD)
+
+  isEmailVerified        Boolean     @default(false)
+
+  emailVerificationToken String?
+ 
+  resetPasswordToken     String?
+  resetPasswordExpires   DateTime?
+
+  refreshToken           String?
+
+  properties             Property[]
+
+  createdAt              DateTime    @default(now())
+  updatedAt              DateTime    @updatedAt
+}
+
+//
+// PROPERTIES
+//
+
+model Property {
+  id          String  @id @default(uuid())
+  name        String
+  location    String
+  description String?
+  totalUnits  Int
+
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id])
+
+  units Unit[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//
+// UNITS
+//
+
+model Unit {
+  id              String @id @default(uuid())
+  unitNumber      String
+  rentAmount      Float
+  waterBill       Float?
+  electricityBill Float?
+
+  status UnitStatus @default(VACANT)
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+
+  leases Lease[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//
+// TENANTS
+//
+
+model Tenant {
+  id          String  @id @default(uuid())
+  fullName    String
+  email       String? @unique
+  phoneNumber String
+  nationalId  String? @unique
+
+  leases Lease[]
+
+  notifications Notification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//
+// LEASES
+//
+
+model Lease {
+  id String @id @default(uuid())
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  unitId String
+  unit   Unit   @relation(fields: [unitId], references: [id])
+
+  startDate DateTime
+  endDate   DateTime?
+
+  depositAmount Float
+
+  status LeaseStatus @default(ACTIVE)
+
+  invoices Invoice[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//
+// INVOICES
+//
+
+model Invoice {
+  id String @id @default(uuid())
+
+  leaseId String
+  lease   Lease  @relation(fields: [leaseId], references: [id])
+
+  month Int
+  year  Int
+
+  rentAmount    Float
+  utilityAmount Float
+  totalAmount   Float
+
+  dueDate DateTime
+
+  status InvoiceStatus @default(PENDING)
+
+  payments Payment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//
+// PAYMENTS
+//
+
+model Payment {
+  id String @id @default(uuid())
+
+  invoiceId String
+  invoice   Invoice @relation(fields: [invoiceId], references: [id])
+
+  amount Float
+
+  method PaymentMethod
+
+  mpesaCode String?
+
+  paidAt DateTime @default(now())
+
+  createdAt DateTime @default(now())
+}
+
+//
+// NOTIFICATIONS
+//
+
+model Notification {
+  id String @id @default(uuid())
+
+  title   String
+  message String
+
+  sentVia String
+
+  tenantId String?
+  tenant   Tenant? @relation(fields: [tenantId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+//
+// ENUMS
+//
+
+enum UserRole {
+  ADMIN
+  LANDLORD
+}
+
+enum UnitStatus {
+  VACANT
+  OCCUPIED
+  MAINTENANCE
+}
+
+enum LeaseStatus {
+  ACTIVE
+  ENDED
+  TERMINATED
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+enum PaymentMethod {
+  MPESA
+  CASH
+  BANK
+}
