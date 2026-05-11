@@ -1,0 +1,22 @@
+### Auth Requests
+@baseUrl = http://localhost:3000
+@contentType = application/json
+
+### Register
+POST {{baseUrl}}/auth/register
+Content-Type: {{contentType}}
+
+{
+  "email": "brian@gmail.com",
+  "password": "pass123",
+  "fullName": "Test User"
+}
+
+### Login
+POST {{baseUrl}}/auth/login
+Content-Type: {{contentType}}
+
+{
+  "email": "brian@gmail.com",
+  "password": "pass123"
+}
