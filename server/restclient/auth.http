@@ -1,38 +1,71 @@
 ### Auth Requests
 @baseUrl = http://localhost:3000
 @contentType = application/json
+@accessToken = {{login.response.body.accessToken}}
+@refreshToken = {{login.response.body.refreshToken}}
 
 ### Register
 POST {{baseUrl}}/auth/register
 Content-Type: {{contentType}}
 
 {
-  "email": "kishoyianbrianmwangi@gmail.com",
+  "email": "brianmwangicursor@gmail.com",
   "password": "pass123",
-  "fullName": "Test User"
+  "fullName": "Brian Mwangi"
+}
+
+### Verify Email
+POST {{baseUrl}}/auth/verify-email
+Content-Type: {{contentType}}
+
+{
+  "token": "d027197192e5d67daa98088ffa7ce1b3112edeb4b03e34d3feaea45ab95bdae8"
+}
+
+### Resend Verification
+POST {{baseUrl}}/auth/resend-verification
+Content-Type: {{contentType}}
+
+{
+  "email": "brianmwangicursor@gmail.com"
 }
 
 ### Login
+# @name login
 POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "brian@gmail.com",
+  "email": "brianmwangicursor@gmail.com",
   "password": "pass123"
 }
 
-### Forgot Password
-POST {{baseUrl}}/auth/forgot-password
-Content-Type: {{contentType}} 
+### Refresh tokens
+POST {{baseUrl}}/auth/refresh
+Content-Type: {{contentType}}
 
 {
-  "email": "kishoyianbrianmwangi@gmail.com"
+  "refreshToken": "{{refreshToken}}"
+}
+
+### Logout
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{accessToken}}
+
+### Forgot Password
+POST {{baseUrl}}/auth/forgot-password
+Content-Type: {{contentType}}
+
+{
+  "email": "brianmwangicursor@gmail.com"
 }
 
 ### Reset Password
 POST {{baseUrl}}/auth/reset-password
-Content-Type: {{contentType}} 
+Content-Type: {{contentType}}
+
 {
-  "token": "",
-  "newPassword": "newpass123" 
+  "email": "user@example.com",
+  "otp": "123456",
+  "newPassword": "newpass123"
 }

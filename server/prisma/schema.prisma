@@ -27,7 +27,7 @@ model User {
 
   phoneNumber            String?     @unique
 
-  role                   UserRole    @default(LANDLORD)
+  role                   UserRole    @default(USER)
 
   isEmailVerified        Boolean     @default(false)
 
@@ -204,6 +204,7 @@ model Notification {
 enum UserRole {
   ADMIN
   LANDLORD
+  USER
 }
 
 enum UnitStatus {

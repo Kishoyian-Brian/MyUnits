@@ -1,0 +1,38 @@
+### Users (requires JWT)
+@baseUrl = http://localhost:3000
+@contentType = application/json
+@accessToken = paste-access-token-here
+
+### Get my profile
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{accessToken}}
+
+### Update my profile
+PATCH {{baseUrl}}/users/me
+Authorization: Bearer {{accessToken}}
+Content-Type: {{contentType}}
+
+{
+  "fullName": "Updated Name",
+  "phoneNumber": "+254712345678"
+}
+
+### Admin: create landlord
+POST {{baseUrl}}/users/landlords
+Authorization: Bearer {{accessToken}}
+Content-Type: {{contentType}}
+
+{
+  "fullName": "Jane Landlord",
+  "email": "landlord@example.com",
+  "password": "landlord123",
+  "phoneNumber": "+254712345678"
+}
+
+### Admin: list all users
+GET {{baseUrl}}/users
+Authorization: Bearer {{accessToken}}
+
+### Admin: get user by id
+GET {{baseUrl}}/users/paste-user-uuid-here
+Authorization: Bearer {{accessToken}}
