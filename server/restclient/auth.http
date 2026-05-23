@@ -7,7 +7,7 @@ POST {{baseUrl}}/auth/register
 Content-Type: {{contentType}}
 
 {
-  "email": "brian@gmail.com",
+  "email": "kishoyianbrianmwangi@gmail.com",
   "password": "pass123",
   "fullName": "Test User"
 }
@@ -19,4 +19,20 @@ Content-Type: {{contentType}}
 {
   "email": "brian@gmail.com",
   "password": "pass123"
+}
+
+### Forgot Password
+POST {{baseUrl}}/auth/forgot-password
+Content-Type: {{contentType}} 
+
+{
+  "email": "kishoyianbrianmwangi@gmail.com"
+}
+
+### Reset Password
+POST {{baseUrl}}/auth/reset-password
+Content-Type: {{contentType}} 
+{
+  "token": "",
+  "newPassword": "newpass123" 
 }

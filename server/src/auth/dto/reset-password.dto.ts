@@ -1,6 +1,16 @@
-import { IsNotEmpty, IsString, Length, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Length,
+  MinLength,
+} from 'class-validator';
 
-export class resetPasswordDto {
+export class ResetPasswordDto {
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+  
   @IsString()
   @IsNotEmpty()
   @Length(6, 6)
