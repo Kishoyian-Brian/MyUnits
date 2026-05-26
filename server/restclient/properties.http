@@ -1,0 +1,80 @@
+### Properties (ADMIN or LANDLORD JWT required)
+@baseUrl = http://localhost:3000
+@contentType = application/json
+@accessToken = paste-access-token-here
+@userAccessToken = paste-regular-user-access-token-here
+@propertyId = paste-property-uuid-here
+@landlordId = paste-landlord-user-uuid-here
+@imageId = paste-image-uuid-here
+
+### Landlord: create property
+POST {{baseUrl}}/properties
+Authorization: Bearer {{accessToken}}
+Content-Type: {{contentType}}
+
+{
+  "name": "Sunset Apartments",
+  "location": "Nairobi, Westlands",
+  "description": "Modern block with parking",
+  "totalUnits": 12
+}
+
+### Landlord: upload property images to Cloudflare R2 (multipart form)
+# Images are stored in R2; responses return full public URLs.
+POST {{baseUrl}}/properties/{{propertyId}}/images
+Authorization: Bearer {{accessToken}}
+Content-Type: multipart/form-data; boundary=----MyUnitsBoundary
+
+------MyUnitsBoundary
+Content-Disposition: form-data; name="images"; filename="photo1.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/photo1.jpg
+------MyUnitsBoundary--
+
+### Landlord: delete property image
+DELETE {{baseUrl}}/properties/{{propertyId}}/images/{{imageId}}
+Authorization: Bearer {{accessToken}}
+
+### User: browse all properties (read-only)
+GET {{baseUrl}}/properties
+Authorization: Bearer {{userAccessToken}}
+
+### User: view property details with vacant units (read-only)
+GET {{baseUrl}}/properties/{{propertyId}}
+Authorization: Bearer {{userAccessToken}}
+
+### Admin: create property for a landlord
+POST {{baseUrl}}/properties
+Authorization: Bearer {{accessToken}}
+Content-Type: {{contentType}}
+
+{
+  "name": "Greenview Estate",
+  "location": "Nairobi, Kilimani",
+  "description": "Managed by admin on behalf of landlord",
+  "totalUnits": 8,
+  "ownerId": "{{landlordId}}"
+}
+
+### List properties (landlord: own only, admin/user: all)
+GET {{baseUrl}}/properties
+Authorization: Bearer {{accessToken}}
+
+### Get property by id
+GET {{baseUrl}}/properties/{{propertyId}}
+Authorization: Bearer {{accessToken}}
+
+### Update property
+PATCH {{baseUrl}}/properties/{{propertyId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: {{contentType}}
+
+{
+  "name": "Sunset Apartments Phase 2",
+  "totalUnits": 14
+}
+
+### Delete property (only if it has no units)
+DELETE {{baseUrl}}/properties/{{propertyId}}
+Authorization: Bearer {{accessToken}}

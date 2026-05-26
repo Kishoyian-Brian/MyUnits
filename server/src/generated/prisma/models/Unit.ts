@@ -27,23 +27,23 @@ export type AggregateUnit = {
 }
 
 export type UnitAvgAggregateOutputType = {
-  rentAmount: number | null
-  waterBill: number | null
-  electricityBill: number | null
+  rentAmount: runtime.Decimal | null
+  waterBill: runtime.Decimal | null
+  electricityBill: runtime.Decimal | null
 }
 
 export type UnitSumAggregateOutputType = {
-  rentAmount: number | null
-  waterBill: number | null
-  electricityBill: number | null
+  rentAmount: runtime.Decimal | null
+  waterBill: runtime.Decimal | null
+  electricityBill: runtime.Decimal | null
 }
 
 export type UnitMinAggregateOutputType = {
   id: string | null
   unitNumber: string | null
-  rentAmount: number | null
-  waterBill: number | null
-  electricityBill: number | null
+  rentAmount: runtime.Decimal | null
+  waterBill: runtime.Decimal | null
+  electricityBill: runtime.Decimal | null
   status: $Enums.UnitStatus | null
   propertyId: string | null
   createdAt: Date | null
@@ -53,9 +53,9 @@ export type UnitMinAggregateOutputType = {
 export type UnitMaxAggregateOutputType = {
   id: string | null
   unitNumber: string | null
-  rentAmount: number | null
-  waterBill: number | null
-  electricityBill: number | null
+  rentAmount: runtime.Decimal | null
+  waterBill: runtime.Decimal | null
+  electricityBill: runtime.Decimal | null
   status: $Enums.UnitStatus | null
   propertyId: string | null
   createdAt: Date | null
@@ -214,9 +214,9 @@ export type UnitGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type UnitGroupByOutputType = {
   id: string
   unitNumber: string
-  rentAmount: number
-  waterBill: number | null
-  electricityBill: number | null
+  rentAmount: runtime.Decimal
+  waterBill: runtime.Decimal | null
+  electricityBill: runtime.Decimal | null
   status: $Enums.UnitStatus
   propertyId: string
   createdAt: Date
@@ -249,15 +249,17 @@ export type UnitWhereInput = {
   NOT?: Prisma.UnitWhereInput | Prisma.UnitWhereInput[]
   id?: Prisma.StringFilter<"Unit"> | string
   unitNumber?: Prisma.StringFilter<"Unit"> | string
-  rentAmount?: Prisma.FloatFilter<"Unit"> | number
-  waterBill?: Prisma.FloatNullableFilter<"Unit"> | number | null
-  electricityBill?: Prisma.FloatNullableFilter<"Unit"> | number | null
+  rentAmount?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.DecimalNullableFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.DecimalNullableFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFilter<"Unit"> | $Enums.UnitStatus
   propertyId?: Prisma.StringFilter<"Unit"> | string
   createdAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
   leases?: Prisma.LeaseListRelationFilter
+  rentAdjustments?: Prisma.RentAdjustmentListRelationFilter
+  maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
 }
 
 export type UnitOrderByWithRelationInput = {
@@ -272,24 +274,29 @@ export type UnitOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   property?: Prisma.PropertyOrderByWithRelationInput
   leases?: Prisma.LeaseOrderByRelationAggregateInput
+  rentAdjustments?: Prisma.RentAdjustmentOrderByRelationAggregateInput
+  maintenanceRequests?: Prisma.MaintenanceRequestOrderByRelationAggregateInput
 }
 
 export type UnitWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  propertyId_unitNumber?: Prisma.UnitPropertyIdUnitNumberCompoundUniqueInput
   AND?: Prisma.UnitWhereInput | Prisma.UnitWhereInput[]
   OR?: Prisma.UnitWhereInput[]
   NOT?: Prisma.UnitWhereInput | Prisma.UnitWhereInput[]
   unitNumber?: Prisma.StringFilter<"Unit"> | string
-  rentAmount?: Prisma.FloatFilter<"Unit"> | number
-  waterBill?: Prisma.FloatNullableFilter<"Unit"> | number | null
-  electricityBill?: Prisma.FloatNullableFilter<"Unit"> | number | null
+  rentAmount?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.DecimalNullableFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.DecimalNullableFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFilter<"Unit"> | $Enums.UnitStatus
   propertyId?: Prisma.StringFilter<"Unit"> | string
   createdAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
   property?: Prisma.XOR<Prisma.PropertyScalarRelationFilter, Prisma.PropertyWhereInput>
   leases?: Prisma.LeaseListRelationFilter
-}, "id">
+  rentAdjustments?: Prisma.RentAdjustmentListRelationFilter
+  maintenanceRequests?: Prisma.MaintenanceRequestListRelationFilter
+}, "id" | "propertyId_unitNumber">
 
 export type UnitOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -314,9 +321,9 @@ export type UnitScalarWhereWithAggregatesInput = {
   NOT?: Prisma.UnitScalarWhereWithAggregatesInput | Prisma.UnitScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   unitNumber?: Prisma.StringWithAggregatesFilter<"Unit"> | string
-  rentAmount?: Prisma.FloatWithAggregatesFilter<"Unit"> | number
-  waterBill?: Prisma.FloatNullableWithAggregatesFilter<"Unit"> | number | null
-  electricityBill?: Prisma.FloatNullableWithAggregatesFilter<"Unit"> | number | null
+  rentAmount?: Prisma.DecimalWithAggregatesFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.DecimalNullableWithAggregatesFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.DecimalNullableWithAggregatesFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusWithAggregatesFilter<"Unit"> | $Enums.UnitStatus
   propertyId?: Prisma.StringWithAggregatesFilter<"Unit"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Unit"> | Date | string
@@ -326,61 +333,69 @@ export type UnitScalarWhereWithAggregatesInput = {
 export type UnitCreateInput = {
   id?: string
   unitNumber: string
-  rentAmount: number
-  waterBill?: number | null
-  electricityBill?: number | null
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.UnitStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   property: Prisma.PropertyCreateNestedOneWithoutUnitsInput
   leases?: Prisma.LeaseCreateNestedManyWithoutUnitInput
+  rentAdjustments?: Prisma.RentAdjustmentCreateNestedManyWithoutUnitInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateInput = {
   id?: string
   unitNumber: string
-  rentAmount: number
-  waterBill?: number | null
-  electricityBill?: number | null
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.UnitStatus
   propertyId: string
   createdAt?: Date | string
   updatedAt?: Date | string
   leases?: Prisma.LeaseUncheckedCreateNestedManyWithoutUnitInput
+  rentAdjustments?: Prisma.RentAdjustmentUncheckedCreateNestedManyWithoutUnitInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  rentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  waterBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  electricityBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   property?: Prisma.PropertyUpdateOneRequiredWithoutUnitsNestedInput
   leases?: Prisma.LeaseUpdateManyWithoutUnitNestedInput
+  rentAdjustments?: Prisma.RentAdjustmentUpdateManyWithoutUnitNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  rentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  waterBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  electricityBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leases?: Prisma.LeaseUncheckedUpdateManyWithoutUnitNestedInput
+  rentAdjustments?: Prisma.RentAdjustmentUncheckedUpdateManyWithoutUnitNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateManyInput = {
   id?: string
   unitNumber: string
-  rentAmount: number
-  waterBill?: number | null
-  electricityBill?: number | null
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.UnitStatus
   propertyId: string
   createdAt?: Date | string
@@ -390,9 +405,9 @@ export type UnitCreateManyInput = {
 export type UnitUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  rentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  waterBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  electricityBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -401,9 +416,9 @@ export type UnitUpdateManyMutationInput = {
 export type UnitUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  rentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  waterBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  electricityBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -418,6 +433,11 @@ export type UnitListRelationFilter = {
 
 export type UnitOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type UnitPropertyIdUnitNumberCompoundUniqueInput = {
+  propertyId: string
+  unitNumber: string
 }
 
 export type UnitCountOrderByAggregateInput = {
@@ -515,20 +535,20 @@ export type UnitUncheckedUpdateManyWithoutPropertyNestedInput = {
   deleteMany?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
 }
 
-export type FloatFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type DecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type NullableDecimalFieldUpdateOperationsInput = {
+  set?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
+  divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
 }
 
 export type EnumUnitStatusFieldUpdateOperationsInput = {
@@ -549,28 +569,60 @@ export type UnitUpdateOneRequiredWithoutLeasesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UnitUpdateToOneWithWhereWithoutLeasesInput, Prisma.UnitUpdateWithoutLeasesInput>, Prisma.UnitUncheckedUpdateWithoutLeasesInput>
 }
 
+export type UnitCreateNestedOneWithoutMaintenanceRequestsInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutMaintenanceRequestsInput, Prisma.UnitUncheckedCreateWithoutMaintenanceRequestsInput>
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutMaintenanceRequestsInput
+  connect?: Prisma.UnitWhereUniqueInput
+}
+
+export type UnitUpdateOneRequiredWithoutMaintenanceRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutMaintenanceRequestsInput, Prisma.UnitUncheckedCreateWithoutMaintenanceRequestsInput>
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutMaintenanceRequestsInput
+  upsert?: Prisma.UnitUpsertWithoutMaintenanceRequestsInput
+  connect?: Prisma.UnitWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UnitUpdateToOneWithWhereWithoutMaintenanceRequestsInput, Prisma.UnitUpdateWithoutMaintenanceRequestsInput>, Prisma.UnitUncheckedUpdateWithoutMaintenanceRequestsInput>
+}
+
+export type UnitCreateNestedOneWithoutRentAdjustmentsInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutRentAdjustmentsInput, Prisma.UnitUncheckedCreateWithoutRentAdjustmentsInput>
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutRentAdjustmentsInput
+  connect?: Prisma.UnitWhereUniqueInput
+}
+
+export type UnitUpdateOneRequiredWithoutRentAdjustmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.UnitCreateWithoutRentAdjustmentsInput, Prisma.UnitUncheckedCreateWithoutRentAdjustmentsInput>
+  connectOrCreate?: Prisma.UnitCreateOrConnectWithoutRentAdjustmentsInput
+  upsert?: Prisma.UnitUpsertWithoutRentAdjustmentsInput
+  connect?: Prisma.UnitWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UnitUpdateToOneWithWhereWithoutRentAdjustmentsInput, Prisma.UnitUpdateWithoutRentAdjustmentsInput>, Prisma.UnitUncheckedUpdateWithoutRentAdjustmentsInput>
+}
+
 export type UnitCreateWithoutPropertyInput = {
   id?: string
   unitNumber: string
-  rentAmount: number
-  waterBill?: number | null
-  electricityBill?: number | null
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.UnitStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   leases?: Prisma.LeaseCreateNestedManyWithoutUnitInput
+  rentAdjustments?: Prisma.RentAdjustmentCreateNestedManyWithoutUnitInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutPropertyInput = {
   id?: string
   unitNumber: string
-  rentAmount: number
-  waterBill?: number | null
-  electricityBill?: number | null
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.UnitStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   leases?: Prisma.LeaseUncheckedCreateNestedManyWithoutUnitInput
+  rentAdjustments?: Prisma.RentAdjustmentUncheckedCreateNestedManyWithoutUnitInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutPropertyInput = {
@@ -605,9 +657,9 @@ export type UnitScalarWhereInput = {
   NOT?: Prisma.UnitScalarWhereInput | Prisma.UnitScalarWhereInput[]
   id?: Prisma.StringFilter<"Unit"> | string
   unitNumber?: Prisma.StringFilter<"Unit"> | string
-  rentAmount?: Prisma.FloatFilter<"Unit"> | number
-  waterBill?: Prisma.FloatNullableFilter<"Unit"> | number | null
-  electricityBill?: Prisma.FloatNullableFilter<"Unit"> | number | null
+  rentAmount?: Prisma.DecimalFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.DecimalNullableFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.DecimalNullableFilter<"Unit"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFilter<"Unit"> | $Enums.UnitStatus
   propertyId?: Prisma.StringFilter<"Unit"> | string
   createdAt?: Prisma.DateTimeFilter<"Unit"> | Date | string
@@ -617,25 +669,29 @@ export type UnitScalarWhereInput = {
 export type UnitCreateWithoutLeasesInput = {
   id?: string
   unitNumber: string
-  rentAmount: number
-  waterBill?: number | null
-  electricityBill?: number | null
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.UnitStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   property: Prisma.PropertyCreateNestedOneWithoutUnitsInput
+  rentAdjustments?: Prisma.RentAdjustmentCreateNestedManyWithoutUnitInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
 }
 
 export type UnitUncheckedCreateWithoutLeasesInput = {
   id?: string
   unitNumber: string
-  rentAmount: number
-  waterBill?: number | null
-  electricityBill?: number | null
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.UnitStatus
   propertyId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  rentAdjustments?: Prisma.RentAdjustmentUncheckedCreateNestedManyWithoutUnitInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
 }
 
 export type UnitCreateOrConnectWithoutLeasesInput = {
@@ -657,33 +713,181 @@ export type UnitUpdateToOneWithWhereWithoutLeasesInput = {
 export type UnitUpdateWithoutLeasesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  rentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  waterBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  electricityBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   property?: Prisma.PropertyUpdateOneRequiredWithoutUnitsNestedInput
+  rentAdjustments?: Prisma.RentAdjustmentUpdateManyWithoutUnitNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutLeasesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  rentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  waterBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  electricityBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   propertyId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  rentAdjustments?: Prisma.RentAdjustmentUncheckedUpdateManyWithoutUnitNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitCreateWithoutMaintenanceRequestsInput = {
+  id?: string
+  unitNumber: string
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.UnitStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  property: Prisma.PropertyCreateNestedOneWithoutUnitsInput
+  leases?: Prisma.LeaseCreateNestedManyWithoutUnitInput
+  rentAdjustments?: Prisma.RentAdjustmentCreateNestedManyWithoutUnitInput
+}
+
+export type UnitUncheckedCreateWithoutMaintenanceRequestsInput = {
+  id?: string
+  unitNumber: string
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.UnitStatus
+  propertyId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leases?: Prisma.LeaseUncheckedCreateNestedManyWithoutUnitInput
+  rentAdjustments?: Prisma.RentAdjustmentUncheckedCreateNestedManyWithoutUnitInput
+}
+
+export type UnitCreateOrConnectWithoutMaintenanceRequestsInput = {
+  where: Prisma.UnitWhereUniqueInput
+  create: Prisma.XOR<Prisma.UnitCreateWithoutMaintenanceRequestsInput, Prisma.UnitUncheckedCreateWithoutMaintenanceRequestsInput>
+}
+
+export type UnitUpsertWithoutMaintenanceRequestsInput = {
+  update: Prisma.XOR<Prisma.UnitUpdateWithoutMaintenanceRequestsInput, Prisma.UnitUncheckedUpdateWithoutMaintenanceRequestsInput>
+  create: Prisma.XOR<Prisma.UnitCreateWithoutMaintenanceRequestsInput, Prisma.UnitUncheckedCreateWithoutMaintenanceRequestsInput>
+  where?: Prisma.UnitWhereInput
+}
+
+export type UnitUpdateToOneWithWhereWithoutMaintenanceRequestsInput = {
+  where?: Prisma.UnitWhereInput
+  data: Prisma.XOR<Prisma.UnitUpdateWithoutMaintenanceRequestsInput, Prisma.UnitUncheckedUpdateWithoutMaintenanceRequestsInput>
+}
+
+export type UnitUpdateWithoutMaintenanceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  property?: Prisma.PropertyUpdateOneRequiredWithoutUnitsNestedInput
+  leases?: Prisma.LeaseUpdateManyWithoutUnitNestedInput
+  rentAdjustments?: Prisma.RentAdjustmentUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitUncheckedUpdateWithoutMaintenanceRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leases?: Prisma.LeaseUncheckedUpdateManyWithoutUnitNestedInput
+  rentAdjustments?: Prisma.RentAdjustmentUncheckedUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitCreateWithoutRentAdjustmentsInput = {
+  id?: string
+  unitNumber: string
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.UnitStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  property: Prisma.PropertyCreateNestedOneWithoutUnitsInput
+  leases?: Prisma.LeaseCreateNestedManyWithoutUnitInput
+  maintenanceRequests?: Prisma.MaintenanceRequestCreateNestedManyWithoutUnitInput
+}
+
+export type UnitUncheckedCreateWithoutRentAdjustmentsInput = {
+  id?: string
+  unitNumber: string
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: $Enums.UnitStatus
+  propertyId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  leases?: Prisma.LeaseUncheckedCreateNestedManyWithoutUnitInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedCreateNestedManyWithoutUnitInput
+}
+
+export type UnitCreateOrConnectWithoutRentAdjustmentsInput = {
+  where: Prisma.UnitWhereUniqueInput
+  create: Prisma.XOR<Prisma.UnitCreateWithoutRentAdjustmentsInput, Prisma.UnitUncheckedCreateWithoutRentAdjustmentsInput>
+}
+
+export type UnitUpsertWithoutRentAdjustmentsInput = {
+  update: Prisma.XOR<Prisma.UnitUpdateWithoutRentAdjustmentsInput, Prisma.UnitUncheckedUpdateWithoutRentAdjustmentsInput>
+  create: Prisma.XOR<Prisma.UnitCreateWithoutRentAdjustmentsInput, Prisma.UnitUncheckedCreateWithoutRentAdjustmentsInput>
+  where?: Prisma.UnitWhereInput
+}
+
+export type UnitUpdateToOneWithWhereWithoutRentAdjustmentsInput = {
+  where?: Prisma.UnitWhereInput
+  data: Prisma.XOR<Prisma.UnitUpdateWithoutRentAdjustmentsInput, Prisma.UnitUncheckedUpdateWithoutRentAdjustmentsInput>
+}
+
+export type UnitUpdateWithoutRentAdjustmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  property?: Prisma.PropertyUpdateOneRequiredWithoutUnitsNestedInput
+  leases?: Prisma.LeaseUpdateManyWithoutUnitNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
+}
+
+export type UnitUncheckedUpdateWithoutRentAdjustmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
+  propertyId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  leases?: Prisma.LeaseUncheckedUpdateManyWithoutUnitNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitCreateManyPropertyInput = {
   id?: string
   unitNumber: string
-  rentAmount: number
-  waterBill?: number | null
-  electricityBill?: number | null
+  rentAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: $Enums.UnitStatus
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -692,33 +896,37 @@ export type UnitCreateManyPropertyInput = {
 export type UnitUpdateWithoutPropertyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  rentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  waterBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  electricityBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leases?: Prisma.LeaseUpdateManyWithoutUnitNestedInput
+  rentAdjustments?: Prisma.RentAdjustmentUpdateManyWithoutUnitNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateWithoutPropertyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  rentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  waterBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  electricityBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   leases?: Prisma.LeaseUncheckedUpdateManyWithoutUnitNestedInput
+  rentAdjustments?: Prisma.RentAdjustmentUncheckedUpdateManyWithoutUnitNestedInput
+  maintenanceRequests?: Prisma.MaintenanceRequestUncheckedUpdateManyWithoutUnitNestedInput
 }
 
 export type UnitUncheckedUpdateManyWithoutPropertyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   unitNumber?: Prisma.StringFieldUpdateOperationsInput | string
-  rentAmount?: Prisma.FloatFieldUpdateOperationsInput | number
-  waterBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  electricityBill?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  rentAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  waterBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  electricityBill?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   status?: Prisma.EnumUnitStatusFieldUpdateOperationsInput | $Enums.UnitStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -731,10 +939,14 @@ export type UnitUncheckedUpdateManyWithoutPropertyInput = {
 
 export type UnitCountOutputType = {
   leases: number
+  rentAdjustments: number
+  maintenanceRequests: number
 }
 
 export type UnitCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   leases?: boolean | UnitCountOutputTypeCountLeasesArgs
+  rentAdjustments?: boolean | UnitCountOutputTypeCountRentAdjustmentsArgs
+  maintenanceRequests?: boolean | UnitCountOutputTypeCountMaintenanceRequestsArgs
 }
 
 /**
@@ -754,6 +966,20 @@ export type UnitCountOutputTypeCountLeasesArgs<ExtArgs extends runtime.Types.Ext
   where?: Prisma.LeaseWhereInput
 }
 
+/**
+ * UnitCountOutputType without action
+ */
+export type UnitCountOutputTypeCountRentAdjustmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RentAdjustmentWhereInput
+}
+
+/**
+ * UnitCountOutputType without action
+ */
+export type UnitCountOutputTypeCountMaintenanceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.MaintenanceRequestWhereInput
+}
+
 
 export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -767,6 +993,8 @@ export type UnitSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   leases?: boolean | Prisma.Unit$leasesArgs<ExtArgs>
+  rentAdjustments?: boolean | Prisma.Unit$rentAdjustmentsArgs<ExtArgs>
+  maintenanceRequests?: boolean | Prisma.Unit$maintenanceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["unit"]>
 
@@ -812,6 +1040,8 @@ export type UnitOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UnitInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   property?: boolean | Prisma.PropertyDefaultArgs<ExtArgs>
   leases?: boolean | Prisma.Unit$leasesArgs<ExtArgs>
+  rentAdjustments?: boolean | Prisma.Unit$rentAdjustmentsArgs<ExtArgs>
+  maintenanceRequests?: boolean | Prisma.Unit$maintenanceRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.UnitCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UnitIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -826,13 +1056,15 @@ export type $UnitPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     property: Prisma.$PropertyPayload<ExtArgs>
     leases: Prisma.$LeasePayload<ExtArgs>[]
+    rentAdjustments: Prisma.$RentAdjustmentPayload<ExtArgs>[]
+    maintenanceRequests: Prisma.$MaintenanceRequestPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     unitNumber: string
-    rentAmount: number
-    waterBill: number | null
-    electricityBill: number | null
+    rentAmount: runtime.Decimal
+    waterBill: runtime.Decimal | null
+    electricityBill: runtime.Decimal | null
     status: $Enums.UnitStatus
     propertyId: string
     createdAt: Date
@@ -1233,6 +1465,8 @@ export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   property<T extends Prisma.PropertyDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PropertyDefaultArgs<ExtArgs>>): Prisma.Prisma__PropertyClient<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   leases<T extends Prisma.Unit$leasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$leasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  rentAdjustments<T extends Prisma.Unit$rentAdjustmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$rentAdjustmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RentAdjustmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  maintenanceRequests<T extends Prisma.Unit$maintenanceRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Unit$maintenanceRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MaintenanceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1264,9 +1498,9 @@ export interface Prisma__UnitClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface UnitFieldRefs {
   readonly id: Prisma.FieldRef<"Unit", 'String'>
   readonly unitNumber: Prisma.FieldRef<"Unit", 'String'>
-  readonly rentAmount: Prisma.FieldRef<"Unit", 'Float'>
-  readonly waterBill: Prisma.FieldRef<"Unit", 'Float'>
-  readonly electricityBill: Prisma.FieldRef<"Unit", 'Float'>
+  readonly rentAmount: Prisma.FieldRef<"Unit", 'Decimal'>
+  readonly waterBill: Prisma.FieldRef<"Unit", 'Decimal'>
+  readonly electricityBill: Prisma.FieldRef<"Unit", 'Decimal'>
   readonly status: Prisma.FieldRef<"Unit", 'UnitStatus'>
   readonly propertyId: Prisma.FieldRef<"Unit", 'String'>
   readonly createdAt: Prisma.FieldRef<"Unit", 'DateTime'>
@@ -1693,6 +1927,54 @@ export type Unit$leasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   distinct?: Prisma.LeaseScalarFieldEnum | Prisma.LeaseScalarFieldEnum[]
+}
+
+/**
+ * Unit.rentAdjustments
+ */
+export type Unit$rentAdjustmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RentAdjustment
+   */
+  select?: Prisma.RentAdjustmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RentAdjustment
+   */
+  omit?: Prisma.RentAdjustmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RentAdjustmentInclude<ExtArgs> | null
+  where?: Prisma.RentAdjustmentWhereInput
+  orderBy?: Prisma.RentAdjustmentOrderByWithRelationInput | Prisma.RentAdjustmentOrderByWithRelationInput[]
+  cursor?: Prisma.RentAdjustmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RentAdjustmentScalarFieldEnum | Prisma.RentAdjustmentScalarFieldEnum[]
+}
+
+/**
+ * Unit.maintenanceRequests
+ */
+export type Unit$maintenanceRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MaintenanceRequest
+   */
+  select?: Prisma.MaintenanceRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the MaintenanceRequest
+   */
+  omit?: Prisma.MaintenanceRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MaintenanceRequestInclude<ExtArgs> | null
+  where?: Prisma.MaintenanceRequestWhereInput
+  orderBy?: Prisma.MaintenanceRequestOrderByWithRelationInput | Prisma.MaintenanceRequestOrderByWithRelationInput[]
+  cursor?: Prisma.MaintenanceRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.MaintenanceRequestScalarFieldEnum | Prisma.MaintenanceRequestScalarFieldEnum[]
 }
 
 /**

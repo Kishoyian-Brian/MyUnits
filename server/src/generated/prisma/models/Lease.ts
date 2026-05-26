@@ -27,11 +27,11 @@ export type AggregateLease = {
 }
 
 export type LeaseAvgAggregateOutputType = {
-  depositAmount: number | null
+  depositAmount: runtime.Decimal | null
 }
 
 export type LeaseSumAggregateOutputType = {
-  depositAmount: number | null
+  depositAmount: runtime.Decimal | null
 }
 
 export type LeaseMinAggregateOutputType = {
@@ -40,8 +40,9 @@ export type LeaseMinAggregateOutputType = {
   unitId: string | null
   startDate: Date | null
   endDate: Date | null
-  depositAmount: number | null
+  depositAmount: runtime.Decimal | null
   status: $Enums.LeaseStatus | null
+  terminatedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,8 +53,9 @@ export type LeaseMaxAggregateOutputType = {
   unitId: string | null
   startDate: Date | null
   endDate: Date | null
-  depositAmount: number | null
+  depositAmount: runtime.Decimal | null
   status: $Enums.LeaseStatus | null
+  terminatedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -66,6 +68,7 @@ export type LeaseCountAggregateOutputType = {
   endDate: number
   depositAmount: number
   status: number
+  terminatedAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -88,6 +91,7 @@ export type LeaseMinAggregateInputType = {
   endDate?: true
   depositAmount?: true
   status?: true
+  terminatedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -100,6 +104,7 @@ export type LeaseMaxAggregateInputType = {
   endDate?: true
   depositAmount?: true
   status?: true
+  terminatedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +117,7 @@ export type LeaseCountAggregateInputType = {
   endDate?: true
   depositAmount?: true
   status?: true
+  terminatedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -209,8 +215,9 @@ export type LeaseGroupByOutputType = {
   unitId: string
   startDate: Date
   endDate: Date | null
-  depositAmount: number
+  depositAmount: runtime.Decimal
   status: $Enums.LeaseStatus
+  terminatedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: LeaseCountAggregateOutputType | null
@@ -244,8 +251,9 @@ export type LeaseWhereInput = {
   unitId?: Prisma.StringFilter<"Lease"> | string
   startDate?: Prisma.DateTimeFilter<"Lease"> | Date | string
   endDate?: Prisma.DateTimeNullableFilter<"Lease"> | Date | string | null
-  depositAmount?: Prisma.FloatFilter<"Lease"> | number
+  depositAmount?: Prisma.DecimalFilter<"Lease"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFilter<"Lease"> | $Enums.LeaseStatus
+  terminatedAt?: Prisma.DateTimeNullableFilter<"Lease"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -261,6 +269,7 @@ export type LeaseOrderByWithRelationInput = {
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
   depositAmount?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  terminatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   tenant?: Prisma.TenantOrderByWithRelationInput
@@ -277,8 +286,9 @@ export type LeaseWhereUniqueInput = Prisma.AtLeast<{
   unitId?: Prisma.StringFilter<"Lease"> | string
   startDate?: Prisma.DateTimeFilter<"Lease"> | Date | string
   endDate?: Prisma.DateTimeNullableFilter<"Lease"> | Date | string | null
-  depositAmount?: Prisma.FloatFilter<"Lease"> | number
+  depositAmount?: Prisma.DecimalFilter<"Lease"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFilter<"Lease"> | $Enums.LeaseStatus
+  terminatedAt?: Prisma.DateTimeNullableFilter<"Lease"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantScalarRelationFilter, Prisma.TenantWhereInput>
@@ -294,6 +304,7 @@ export type LeaseOrderByWithAggregationInput = {
   endDate?: Prisma.SortOrderInput | Prisma.SortOrder
   depositAmount?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  terminatedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.LeaseCountOrderByAggregateInput
@@ -312,8 +323,9 @@ export type LeaseScalarWhereWithAggregatesInput = {
   unitId?: Prisma.StringWithAggregatesFilter<"Lease"> | string
   startDate?: Prisma.DateTimeWithAggregatesFilter<"Lease"> | Date | string
   endDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Lease"> | Date | string | null
-  depositAmount?: Prisma.FloatWithAggregatesFilter<"Lease"> | number
+  depositAmount?: Prisma.DecimalWithAggregatesFilter<"Lease"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusWithAggregatesFilter<"Lease"> | $Enums.LeaseStatus
+  terminatedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Lease"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Lease"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Lease"> | Date | string
 }
@@ -322,8 +334,9 @@ export type LeaseCreateInput = {
   id?: string
   startDate: Date | string
   endDate?: Date | string | null
-  depositAmount: number
+  depositAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.LeaseStatus
+  terminatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
@@ -337,8 +350,9 @@ export type LeaseUncheckedCreateInput = {
   unitId: string
   startDate: Date | string
   endDate?: Date | string | null
-  depositAmount: number
+  depositAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.LeaseStatus
+  terminatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutLeaseInput
@@ -348,8 +362,9 @@ export type LeaseUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
@@ -363,8 +378,9 @@ export type LeaseUncheckedUpdateInput = {
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutLeaseNestedInput
@@ -376,8 +392,9 @@ export type LeaseCreateManyInput = {
   unitId: string
   startDate: Date | string
   endDate?: Date | string | null
-  depositAmount: number
+  depositAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.LeaseStatus
+  terminatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -386,8 +403,9 @@ export type LeaseUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -398,8 +416,9 @@ export type LeaseUncheckedUpdateManyInput = {
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -422,6 +441,7 @@ export type LeaseCountOrderByAggregateInput = {
   endDate?: Prisma.SortOrder
   depositAmount?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  terminatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -438,6 +458,7 @@ export type LeaseMaxOrderByAggregateInput = {
   endDate?: Prisma.SortOrder
   depositAmount?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  terminatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -450,6 +471,7 @@ export type LeaseMinOrderByAggregateInput = {
   endDate?: Prisma.SortOrder
   depositAmount?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  terminatedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -569,8 +591,9 @@ export type LeaseCreateWithoutUnitInput = {
   id?: string
   startDate: Date | string
   endDate?: Date | string | null
-  depositAmount: number
+  depositAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.LeaseStatus
+  terminatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
@@ -582,8 +605,9 @@ export type LeaseUncheckedCreateWithoutUnitInput = {
   tenantId: string
   startDate: Date | string
   endDate?: Date | string | null
-  depositAmount: number
+  depositAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.LeaseStatus
+  terminatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutLeaseInput
@@ -624,8 +648,9 @@ export type LeaseScalarWhereInput = {
   unitId?: Prisma.StringFilter<"Lease"> | string
   startDate?: Prisma.DateTimeFilter<"Lease"> | Date | string
   endDate?: Prisma.DateTimeNullableFilter<"Lease"> | Date | string | null
-  depositAmount?: Prisma.FloatFilter<"Lease"> | number
+  depositAmount?: Prisma.DecimalFilter<"Lease"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFilter<"Lease"> | $Enums.LeaseStatus
+  terminatedAt?: Prisma.DateTimeNullableFilter<"Lease"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lease"> | Date | string
 }
@@ -634,8 +659,9 @@ export type LeaseCreateWithoutTenantInput = {
   id?: string
   startDate: Date | string
   endDate?: Date | string | null
-  depositAmount: number
+  depositAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.LeaseStatus
+  terminatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   unit: Prisma.UnitCreateNestedOneWithoutLeasesInput
@@ -647,8 +673,9 @@ export type LeaseUncheckedCreateWithoutTenantInput = {
   unitId: string
   startDate: Date | string
   endDate?: Date | string | null
-  depositAmount: number
+  depositAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.LeaseStatus
+  terminatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutLeaseInput
@@ -684,8 +711,9 @@ export type LeaseCreateWithoutInvoicesInput = {
   id?: string
   startDate: Date | string
   endDate?: Date | string | null
-  depositAmount: number
+  depositAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.LeaseStatus
+  terminatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   tenant: Prisma.TenantCreateNestedOneWithoutLeasesInput
@@ -698,8 +726,9 @@ export type LeaseUncheckedCreateWithoutInvoicesInput = {
   unitId: string
   startDate: Date | string
   endDate?: Date | string | null
-  depositAmount: number
+  depositAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.LeaseStatus
+  terminatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -724,8 +753,9 @@ export type LeaseUpdateWithoutInvoicesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
@@ -738,8 +768,9 @@ export type LeaseUncheckedUpdateWithoutInvoicesInput = {
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -749,8 +780,9 @@ export type LeaseCreateManyUnitInput = {
   tenantId: string
   startDate: Date | string
   endDate?: Date | string | null
-  depositAmount: number
+  depositAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.LeaseStatus
+  terminatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -759,8 +791,9 @@ export type LeaseUpdateWithoutUnitInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneRequiredWithoutLeasesNestedInput
@@ -772,8 +805,9 @@ export type LeaseUncheckedUpdateWithoutUnitInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutLeaseNestedInput
@@ -784,8 +818,9 @@ export type LeaseUncheckedUpdateManyWithoutUnitInput = {
   tenantId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -795,8 +830,9 @@ export type LeaseCreateManyTenantInput = {
   unitId: string
   startDate: Date | string
   endDate?: Date | string | null
-  depositAmount: number
+  depositAmount: runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: $Enums.LeaseStatus
+  terminatedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -805,8 +841,9 @@ export type LeaseUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   unit?: Prisma.UnitUpdateOneRequiredWithoutLeasesNestedInput
@@ -818,8 +855,9 @@ export type LeaseUncheckedUpdateWithoutTenantInput = {
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutLeaseNestedInput
@@ -830,8 +868,9 @@ export type LeaseUncheckedUpdateManyWithoutTenantInput = {
   unitId?: Prisma.StringFieldUpdateOperationsInput | string
   startDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   endDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  depositAmount?: Prisma.FloatFieldUpdateOperationsInput | number
+  depositAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   status?: Prisma.EnumLeaseStatusFieldUpdateOperationsInput | $Enums.LeaseStatus
+  terminatedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -875,6 +914,7 @@ export type LeaseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   endDate?: boolean
   depositAmount?: boolean
   status?: boolean
+  terminatedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -891,6 +931,7 @@ export type LeaseSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   endDate?: boolean
   depositAmount?: boolean
   status?: boolean
+  terminatedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -905,6 +946,7 @@ export type LeaseSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
   endDate?: boolean
   depositAmount?: boolean
   status?: boolean
+  terminatedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
@@ -919,11 +961,12 @@ export type LeaseSelectScalar = {
   endDate?: boolean
   depositAmount?: boolean
   status?: boolean
+  terminatedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type LeaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "unitId" | "startDate" | "endDate" | "depositAmount" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["lease"]>
+export type LeaseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "tenantId" | "unitId" | "startDate" | "endDate" | "depositAmount" | "status" | "terminatedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["lease"]>
 export type LeaseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tenant?: boolean | Prisma.TenantDefaultArgs<ExtArgs>
   unit?: boolean | Prisma.UnitDefaultArgs<ExtArgs>
@@ -952,8 +995,9 @@ export type $LeasePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     unitId: string
     startDate: Date
     endDate: Date | null
-    depositAmount: number
+    depositAmount: runtime.Decimal
     status: $Enums.LeaseStatus
+    terminatedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["lease"]>
@@ -1387,8 +1431,9 @@ export interface LeaseFieldRefs {
   readonly unitId: Prisma.FieldRef<"Lease", 'String'>
   readonly startDate: Prisma.FieldRef<"Lease", 'DateTime'>
   readonly endDate: Prisma.FieldRef<"Lease", 'DateTime'>
-  readonly depositAmount: Prisma.FieldRef<"Lease", 'Float'>
+  readonly depositAmount: Prisma.FieldRef<"Lease", 'Decimal'>
   readonly status: Prisma.FieldRef<"Lease", 'LeaseStatus'>
+  readonly terminatedAt: Prisma.FieldRef<"Lease", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Lease", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Lease", 'DateTime'>
 }

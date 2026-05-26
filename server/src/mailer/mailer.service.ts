@@ -1,10 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import {
-  buildEmailHtml,
-  getLogoAttachment,
-  resolveLogoPath,
-} from './email-layout';
+import { buildEmailHtml } from './email-layout';
 
 export interface WelcomeEmailData {
   name: string;
@@ -19,13 +15,6 @@ export class MailerService {
   private transporter: nodemailer.Transporter;
 
   constructor() {
-    const logoPath = resolveLogoPath();
-    if (logoPath) {
-      this.logger.log(`Email logo loaded from ${logoPath}`);
-    } else {
-      this.logger.warn('Email logo not found at Assets/logo.png');
-    }
-
     this.transporter = nodemailer.createTransport({
       host: process.env.MAIL_HOST,
       port: Number(process.env.MAIL_PORT),
@@ -116,8 +105,6 @@ export class MailerService {
     title: string;
     body: string;
   }): Promise<void> {
-    const logoAttachment = getLogoAttachment();
-
     await this.transporter.sendMail({
       from: `"MyUnits" <${process.env.MAIL_USER}>`,
       to: options.to,
@@ -125,9 +112,7 @@ export class MailerService {
       html: buildEmailHtml({
         title: options.title,
         body: options.body,
-        includeLogo: logoAttachment !== null,
       }),
-      attachments: logoAttachment ? [logoAttachment] : undefined,
     });
   }
 }

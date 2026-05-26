@@ -7,6 +7,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
@@ -19,18 +20,21 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import type { JwtPayloadUser } from './types/jwt-payload';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   private readonly logger = new Logger(AuthController.name);
 
   constructor(private authService: AuthService) {}
 
+  @ApiOperation({ summary: 'Register a new user' })
   @Post('register')
   register(@Body() registerDto: RegisterDto) {
     this.logger.log(`Register request received for ${registerDto.email}`);
     return this.authService.register(registerDto);
   }
 
+  @ApiOperation({ summary: 'Log in with email and password' })
   @Post('login')
   @HttpCode(HttpStatus.OK)
   login(@Body() loginDto: LoginDto) {
@@ -38,6 +42,7 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
+  @ApiOperation({ summary: 'Verify email with token' })
   @Post('verify-email')
   @HttpCode(HttpStatus.OK)
   verifyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
@@ -45,6 +50,7 @@ export class AuthController {
     return this.authService.verifyEmail(verifyEmailDto);
   }
 
+  @ApiOperation({ summary: 'Resend email verification link' })
   @Post('resend-verification')
   @HttpCode(HttpStatus.OK)
   resendVerification(@Body() resendDto: ResendVerificationDto) {
@@ -52,6 +58,7 @@ export class AuthController {
     return this.authService.resendVerification(resendDto);
   }
 
+  @ApiOperation({ summary: 'Request a password reset OTP' })
   @Post('forgot-password')
   @HttpCode(HttpStatus.OK)
   forgotPassword(@Body() forgotPasswordDto: ForgetPasswordDto) {
@@ -61,6 +68,7 @@ export class AuthController {
     return this.authService.forgotPassword(forgotPasswordDto);
   }
 
+  @ApiOperation({ summary: 'Reset password with OTP' })
   @Post('reset-password')
   @HttpCode(HttpStatus.OK)
   resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
@@ -70,6 +78,7 @@ export class AuthController {
     return this.authService.resetPassword(resetPasswordDto);
   }
 
+  @ApiOperation({ summary: 'Refresh access token' })
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   refresh(@Body() refreshTokenDto: RefreshTokenDto) {
@@ -77,6 +86,8 @@ export class AuthController {
     return this.authService.refreshTokens(refreshTokenDto);
   }
 
+  @ApiOperation({ summary: 'Log out current user' })
+  @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post('logout')
   @HttpCode(HttpStatus.OK)

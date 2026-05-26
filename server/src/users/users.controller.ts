@@ -9,6 +9,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserRole } from '../generated/prisma/enums';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -19,6 +20,8 @@ import { UsersService } from './users.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { CreateLandlordDto } from './dto/create-landlord.dto';
 
+@ApiTags('Users')
+@ApiBearerAuth()
 @Controller('users')
 @UseGuards(JwtAuthGuard)
 export class UsersController {
@@ -26,12 +29,14 @@ export class UsersController {
 
   constructor(private usersService: UsersService) {}
 
+  @ApiOperation({ summary: 'Get current user profile' })
   @Get('me')
   getMe(@CurrentUser() user: JwtPayloadUser) {
     this.logger.log(`Get profile for ${user.email}`);
     return this.usersService.getProfile(user.userId);
   }
 
+  @ApiOperation({ summary: 'Update current user profile' })
   @Patch('me')
   updateMe(
     @CurrentUser() user: JwtPayloadUser,
@@ -41,6 +46,7 @@ export class UsersController {
     return this.usersService.updateProfile(user.userId, updateProfileDto);
   }
 
+  @ApiOperation({ summary: 'Create a landlord account (admin only)' })
   @Post('landlords')
   @Roles(UserRole.ADMIN)
   @UseGuards(RolesGuard)
@@ -49,6 +55,7 @@ export class UsersController {
     return this.usersService.createLandlord(createLandlordDto);
   }
 
+  @ApiOperation({ summary: 'List all users (admin only)' })
   @Get()
   @Roles(UserRole.ADMIN)
   @UseGuards(RolesGuard)
@@ -57,6 +64,7 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @ApiOperation({ summary: 'Get user by ID (admin only)' })
   @Get(':id')
   @Roles(UserRole.ADMIN)
   @UseGuards(RolesGuard)

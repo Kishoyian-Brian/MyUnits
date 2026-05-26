@@ -242,6 +242,8 @@ export type PropertyWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Property"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   units?: Prisma.UnitListRelationFilter
+  images?: Prisma.PropertyImageListRelationFilter
+  expenses?: Prisma.ExpenseListRelationFilter
 }
 
 export type PropertyOrderByWithRelationInput = {
@@ -255,6 +257,8 @@ export type PropertyOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   owner?: Prisma.UserOrderByWithRelationInput
   units?: Prisma.UnitOrderByRelationAggregateInput
+  images?: Prisma.PropertyImageOrderByRelationAggregateInput
+  expenses?: Prisma.ExpenseOrderByRelationAggregateInput
 }
 
 export type PropertyWhereUniqueInput = Prisma.AtLeast<{
@@ -271,6 +275,8 @@ export type PropertyWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Property"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   units?: Prisma.UnitListRelationFilter
+  images?: Prisma.PropertyImageListRelationFilter
+  expenses?: Prisma.ExpenseListRelationFilter
 }, "id">
 
 export type PropertyOrderByWithAggregationInput = {
@@ -313,6 +319,8 @@ export type PropertyCreateInput = {
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutPropertiesInput
   units?: Prisma.UnitCreateNestedManyWithoutPropertyInput
+  images?: Prisma.PropertyImageCreateNestedManyWithoutPropertyInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateInput = {
@@ -325,6 +333,8 @@ export type PropertyUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutPropertyInput
+  images?: Prisma.PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUpdateInput = {
@@ -337,6 +347,8 @@ export type PropertyUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutPropertiesNestedInput
   units?: Prisma.UnitUpdateManyWithoutPropertyNestedInput
+  images?: Prisma.PropertyImageUpdateManyWithoutPropertyNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateInput = {
@@ -349,6 +361,8 @@ export type PropertyUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   units?: Prisma.UnitUncheckedUpdateManyWithoutPropertyNestedInput
+  images?: Prisma.PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyCreateManyInput = {
@@ -489,6 +503,20 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type PropertyCreateNestedOneWithoutImagesInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutImagesInput, Prisma.PropertyUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutImagesInput
+  connect?: Prisma.PropertyWhereUniqueInput
+}
+
+export type PropertyUpdateOneRequiredWithoutImagesNestedInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutImagesInput, Prisma.PropertyUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutImagesInput
+  upsert?: Prisma.PropertyUpsertWithoutImagesInput
+  connect?: Prisma.PropertyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PropertyUpdateToOneWithWhereWithoutImagesInput, Prisma.PropertyUpdateWithoutImagesInput>, Prisma.PropertyUncheckedUpdateWithoutImagesInput>
+}
+
 export type PropertyCreateNestedOneWithoutUnitsInput = {
   create?: Prisma.XOR<Prisma.PropertyCreateWithoutUnitsInput, Prisma.PropertyUncheckedCreateWithoutUnitsInput>
   connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutUnitsInput
@@ -503,6 +531,20 @@ export type PropertyUpdateOneRequiredWithoutUnitsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PropertyUpdateToOneWithWhereWithoutUnitsInput, Prisma.PropertyUpdateWithoutUnitsInput>, Prisma.PropertyUncheckedUpdateWithoutUnitsInput>
 }
 
+export type PropertyCreateNestedOneWithoutExpensesInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutExpensesInput, Prisma.PropertyUncheckedCreateWithoutExpensesInput>
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutExpensesInput
+  connect?: Prisma.PropertyWhereUniqueInput
+}
+
+export type PropertyUpdateOneRequiredWithoutExpensesNestedInput = {
+  create?: Prisma.XOR<Prisma.PropertyCreateWithoutExpensesInput, Prisma.PropertyUncheckedCreateWithoutExpensesInput>
+  connectOrCreate?: Prisma.PropertyCreateOrConnectWithoutExpensesInput
+  upsert?: Prisma.PropertyUpsertWithoutExpensesInput
+  connect?: Prisma.PropertyWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PropertyUpdateToOneWithWhereWithoutExpensesInput, Prisma.PropertyUpdateWithoutExpensesInput>, Prisma.PropertyUncheckedUpdateWithoutExpensesInput>
+}
+
 export type PropertyCreateWithoutOwnerInput = {
   id?: string
   name: string
@@ -512,6 +554,8 @@ export type PropertyCreateWithoutOwnerInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   units?: Prisma.UnitCreateNestedManyWithoutPropertyInput
+  images?: Prisma.PropertyImageCreateNestedManyWithoutPropertyInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateWithoutOwnerInput = {
@@ -523,6 +567,8 @@ export type PropertyUncheckedCreateWithoutOwnerInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   units?: Prisma.UnitUncheckedCreateNestedManyWithoutPropertyInput
+  images?: Prisma.PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyCreateOrConnectWithoutOwnerInput = {
@@ -565,6 +611,74 @@ export type PropertyScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Property"> | Date | string
 }
 
+export type PropertyCreateWithoutImagesInput = {
+  id?: string
+  name: string
+  location: string
+  description?: string | null
+  totalUnits: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutPropertiesInput
+  units?: Prisma.UnitCreateNestedManyWithoutPropertyInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutPropertyInput
+}
+
+export type PropertyUncheckedCreateWithoutImagesInput = {
+  id?: string
+  name: string
+  location: string
+  description?: string | null
+  totalUnits: number
+  ownerId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutPropertyInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPropertyInput
+}
+
+export type PropertyCreateOrConnectWithoutImagesInput = {
+  where: Prisma.PropertyWhereUniqueInput
+  create: Prisma.XOR<Prisma.PropertyCreateWithoutImagesInput, Prisma.PropertyUncheckedCreateWithoutImagesInput>
+}
+
+export type PropertyUpsertWithoutImagesInput = {
+  update: Prisma.XOR<Prisma.PropertyUpdateWithoutImagesInput, Prisma.PropertyUncheckedUpdateWithoutImagesInput>
+  create: Prisma.XOR<Prisma.PropertyCreateWithoutImagesInput, Prisma.PropertyUncheckedCreateWithoutImagesInput>
+  where?: Prisma.PropertyWhereInput
+}
+
+export type PropertyUpdateToOneWithWhereWithoutImagesInput = {
+  where?: Prisma.PropertyWhereInput
+  data: Prisma.XOR<Prisma.PropertyUpdateWithoutImagesInput, Prisma.PropertyUncheckedUpdateWithoutImagesInput>
+}
+
+export type PropertyUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalUnits?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutPropertiesNestedInput
+  units?: Prisma.UnitUpdateManyWithoutPropertyNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutPropertyNestedInput
+}
+
+export type PropertyUncheckedUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalUnits?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  units?: Prisma.UnitUncheckedUpdateManyWithoutPropertyNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutPropertyNestedInput
+}
+
 export type PropertyCreateWithoutUnitsInput = {
   id?: string
   name: string
@@ -574,6 +688,8 @@ export type PropertyCreateWithoutUnitsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutPropertiesInput
+  images?: Prisma.PropertyImageCreateNestedManyWithoutPropertyInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyUncheckedCreateWithoutUnitsInput = {
@@ -585,6 +701,8 @@ export type PropertyUncheckedCreateWithoutUnitsInput = {
   ownerId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  images?: Prisma.PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPropertyInput
 }
 
 export type PropertyCreateOrConnectWithoutUnitsInput = {
@@ -612,6 +730,8 @@ export type PropertyUpdateWithoutUnitsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutPropertiesNestedInput
+  images?: Prisma.PropertyImageUpdateManyWithoutPropertyNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutUnitsInput = {
@@ -623,6 +743,76 @@ export type PropertyUncheckedUpdateWithoutUnitsInput = {
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  images?: Prisma.PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutPropertyNestedInput
+}
+
+export type PropertyCreateWithoutExpensesInput = {
+  id?: string
+  name: string
+  location: string
+  description?: string | null
+  totalUnits: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutPropertiesInput
+  units?: Prisma.UnitCreateNestedManyWithoutPropertyInput
+  images?: Prisma.PropertyImageCreateNestedManyWithoutPropertyInput
+}
+
+export type PropertyUncheckedCreateWithoutExpensesInput = {
+  id?: string
+  name: string
+  location: string
+  description?: string | null
+  totalUnits: number
+  ownerId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  units?: Prisma.UnitUncheckedCreateNestedManyWithoutPropertyInput
+  images?: Prisma.PropertyImageUncheckedCreateNestedManyWithoutPropertyInput
+}
+
+export type PropertyCreateOrConnectWithoutExpensesInput = {
+  where: Prisma.PropertyWhereUniqueInput
+  create: Prisma.XOR<Prisma.PropertyCreateWithoutExpensesInput, Prisma.PropertyUncheckedCreateWithoutExpensesInput>
+}
+
+export type PropertyUpsertWithoutExpensesInput = {
+  update: Prisma.XOR<Prisma.PropertyUpdateWithoutExpensesInput, Prisma.PropertyUncheckedUpdateWithoutExpensesInput>
+  create: Prisma.XOR<Prisma.PropertyCreateWithoutExpensesInput, Prisma.PropertyUncheckedCreateWithoutExpensesInput>
+  where?: Prisma.PropertyWhereInput
+}
+
+export type PropertyUpdateToOneWithWhereWithoutExpensesInput = {
+  where?: Prisma.PropertyWhereInput
+  data: Prisma.XOR<Prisma.PropertyUpdateWithoutExpensesInput, Prisma.PropertyUncheckedUpdateWithoutExpensesInput>
+}
+
+export type PropertyUpdateWithoutExpensesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalUnits?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutPropertiesNestedInput
+  units?: Prisma.UnitUpdateManyWithoutPropertyNestedInput
+  images?: Prisma.PropertyImageUpdateManyWithoutPropertyNestedInput
+}
+
+export type PropertyUncheckedUpdateWithoutExpensesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalUnits?: Prisma.IntFieldUpdateOperationsInput | number
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  units?: Prisma.UnitUncheckedUpdateManyWithoutPropertyNestedInput
+  images?: Prisma.PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyCreateManyOwnerInput = {
@@ -644,6 +834,8 @@ export type PropertyUpdateWithoutOwnerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   units?: Prisma.UnitUpdateManyWithoutPropertyNestedInput
+  images?: Prisma.PropertyImageUpdateManyWithoutPropertyNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateWithoutOwnerInput = {
@@ -655,6 +847,8 @@ export type PropertyUncheckedUpdateWithoutOwnerInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   units?: Prisma.UnitUncheckedUpdateManyWithoutPropertyNestedInput
+  images?: Prisma.PropertyImageUncheckedUpdateManyWithoutPropertyNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutPropertyNestedInput
 }
 
 export type PropertyUncheckedUpdateManyWithoutOwnerInput = {
@@ -674,10 +868,14 @@ export type PropertyUncheckedUpdateManyWithoutOwnerInput = {
 
 export type PropertyCountOutputType = {
   units: number
+  images: number
+  expenses: number
 }
 
 export type PropertyCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   units?: boolean | PropertyCountOutputTypeCountUnitsArgs
+  images?: boolean | PropertyCountOutputTypeCountImagesArgs
+  expenses?: boolean | PropertyCountOutputTypeCountExpensesArgs
 }
 
 /**
@@ -697,6 +895,20 @@ export type PropertyCountOutputTypeCountUnitsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.UnitWhereInput
 }
 
+/**
+ * PropertyCountOutputType without action
+ */
+export type PropertyCountOutputTypeCountImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PropertyImageWhereInput
+}
+
+/**
+ * PropertyCountOutputType without action
+ */
+export type PropertyCountOutputTypeCountExpensesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ExpenseWhereInput
+}
+
 
 export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -709,6 +921,8 @@ export type PropertySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   updatedAt?: boolean
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   units?: boolean | Prisma.Property$unitsArgs<ExtArgs>
+  images?: boolean | Prisma.Property$imagesArgs<ExtArgs>
+  expenses?: boolean | Prisma.Property$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.PropertyCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["property"]>
 
@@ -751,6 +965,8 @@ export type PropertyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type PropertyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   units?: boolean | Prisma.Property$unitsArgs<ExtArgs>
+  images?: boolean | Prisma.Property$imagesArgs<ExtArgs>
+  expenses?: boolean | Prisma.Property$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.PropertyCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PropertyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -765,6 +981,8 @@ export type $PropertyPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   objects: {
     owner: Prisma.$UserPayload<ExtArgs>
     units: Prisma.$UnitPayload<ExtArgs>[]
+    images: Prisma.$PropertyImagePayload<ExtArgs>[]
+    expenses: Prisma.$ExpensePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1171,6 +1389,8 @@ export interface Prisma__PropertyClient<T, Null = never, ExtArgs extends runtime
   readonly [Symbol.toStringTag]: "PrismaPromise"
   owner<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   units<T extends Prisma.Property$unitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$unitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UnitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  images<T extends Prisma.Property$imagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PropertyImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  expenses<T extends Prisma.Property$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Property$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1630,6 +1850,54 @@ export type Property$unitsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.UnitScalarFieldEnum | Prisma.UnitScalarFieldEnum[]
+}
+
+/**
+ * Property.images
+ */
+export type Property$imagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PropertyImage
+   */
+  select?: Prisma.PropertyImageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PropertyImage
+   */
+  omit?: Prisma.PropertyImageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PropertyImageInclude<ExtArgs> | null
+  where?: Prisma.PropertyImageWhereInput
+  orderBy?: Prisma.PropertyImageOrderByWithRelationInput | Prisma.PropertyImageOrderByWithRelationInput[]
+  cursor?: Prisma.PropertyImageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PropertyImageScalarFieldEnum | Prisma.PropertyImageScalarFieldEnum[]
+}
+
+/**
+ * Property.expenses
+ */
+export type Property$expensesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Expense
+   */
+  select?: Prisma.ExpenseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Expense
+   */
+  omit?: Prisma.ExpenseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExpenseInclude<ExtArgs> | null
+  where?: Prisma.ExpenseWhereInput
+  orderBy?: Prisma.ExpenseOrderByWithRelationInput | Prisma.ExpenseOrderByWithRelationInput[]
+  cursor?: Prisma.ExpenseWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ExpenseScalarFieldEnum | Prisma.ExpenseScalarFieldEnum[]
 }
 
 /**

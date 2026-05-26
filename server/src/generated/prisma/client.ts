@@ -50,6 +50,11 @@ export type User = Prisma.UserModel
  */
 export type Property = Prisma.PropertyModel
 /**
+ * Model PropertyImage
+ * 
+ */
+export type PropertyImage = Prisma.PropertyImageModel
+/**
  * Model Unit
  * 
  */
@@ -74,6 +79,26 @@ export type Invoice = Prisma.InvoiceModel
  * 
  */
 export type Payment = Prisma.PaymentModel
+/**
+ * Model MaintenanceRequest
+ * 
+ */
+export type MaintenanceRequest = Prisma.MaintenanceRequestModel
+/**
+ * Model MaintenanceImage
+ * 
+ */
+export type MaintenanceImage = Prisma.MaintenanceImageModel
+/**
+ * Model Expense
+ * 
+ */
+export type Expense = Prisma.ExpenseModel
+/**
+ * Model RentAdjustment
+ * 
+ */
+export type RentAdjustment = Prisma.RentAdjustmentModel
 /**
  * Model Notification
  * 

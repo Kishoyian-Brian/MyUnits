@@ -52,3 +52,46 @@ export const PaymentMethod = {
 } as const
 
 export type PaymentMethod = (typeof PaymentMethod)[keyof typeof PaymentMethod]
+
+
+export const MaintenancePriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  EMERGENCY: 'EMERGENCY'
+} as const
+
+export type MaintenancePriority = (typeof MaintenancePriority)[keyof typeof MaintenancePriority]
+
+
+export const MaintenanceStatus = {
+  OPEN: 'OPEN',
+  IN_PROGRESS: 'IN_PROGRESS',
+  RESOLVED: 'RESOLVED',
+  CLOSED: 'CLOSED'
+} as const
+
+export type MaintenanceStatus = (typeof MaintenanceStatus)[keyof typeof MaintenanceStatus]
+
+
+export const ExpenseCategory = {
+  REPAIR: 'REPAIR',
+  INSURANCE: 'INSURANCE',
+  TAX: 'TAX',
+  UTILITY: 'UTILITY',
+  SECURITY: 'SECURITY',
+  GARBAGE: 'GARBAGE',
+  OTHER: 'OTHER'
+} as const
+
+export type ExpenseCategory = (typeof ExpenseCategory)[keyof typeof ExpenseCategory]
+
+
+export const NotificationChannel = {
+  EMAIL: 'EMAIL',
+  SMS: 'SMS',
+  PUSH: 'PUSH',
+  IN_APP: 'IN_APP'
+} as const
+
+export type NotificationChannel = (typeof NotificationChannel)[keyof typeof NotificationChannel]

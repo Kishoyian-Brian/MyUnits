@@ -28,7 +28,7 @@ export type NotificationMinAggregateOutputType = {
   id: string | null
   title: string | null
   message: string | null
-  sentVia: string | null
+  sentVia: $Enums.NotificationChannel | null
   tenantId: string | null
   createdAt: Date | null
 }
@@ -37,7 +37,7 @@ export type NotificationMaxAggregateOutputType = {
   id: string | null
   title: string | null
   message: string | null
-  sentVia: string | null
+  sentVia: $Enums.NotificationChannel | null
   tenantId: string | null
   createdAt: Date | null
 }
@@ -157,7 +157,7 @@ export type NotificationGroupByOutputType = {
   id: string
   title: string
   message: string
-  sentVia: string
+  sentVia: $Enums.NotificationChannel
   tenantId: string | null
   createdAt: Date
   _count: NotificationCountAggregateOutputType | null
@@ -187,7 +187,7 @@ export type NotificationWhereInput = {
   id?: Prisma.StringFilter<"Notification"> | string
   title?: Prisma.StringFilter<"Notification"> | string
   message?: Prisma.StringFilter<"Notification"> | string
-  sentVia?: Prisma.StringFilter<"Notification"> | string
+  sentVia?: Prisma.EnumNotificationChannelFilter<"Notification"> | $Enums.NotificationChannel
   tenantId?: Prisma.StringNullableFilter<"Notification"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Notification"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
@@ -210,7 +210,7 @@ export type NotificationWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.NotificationWhereInput | Prisma.NotificationWhereInput[]
   title?: Prisma.StringFilter<"Notification"> | string
   message?: Prisma.StringFilter<"Notification"> | string
-  sentVia?: Prisma.StringFilter<"Notification"> | string
+  sentVia?: Prisma.EnumNotificationChannelFilter<"Notification"> | $Enums.NotificationChannel
   tenantId?: Prisma.StringNullableFilter<"Notification"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Notification"> | Date | string
   tenant?: Prisma.XOR<Prisma.TenantNullableScalarRelationFilter, Prisma.TenantWhereInput> | null
@@ -235,7 +235,7 @@ export type NotificationScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Notification"> | string
   title?: Prisma.StringWithAggregatesFilter<"Notification"> | string
   message?: Prisma.StringWithAggregatesFilter<"Notification"> | string
-  sentVia?: Prisma.StringWithAggregatesFilter<"Notification"> | string
+  sentVia?: Prisma.EnumNotificationChannelWithAggregatesFilter<"Notification"> | $Enums.NotificationChannel
   tenantId?: Prisma.StringNullableWithAggregatesFilter<"Notification"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Notification"> | Date | string
 }
@@ -244,7 +244,7 @@ export type NotificationCreateInput = {
   id?: string
   title: string
   message: string
-  sentVia: string
+  sentVia: $Enums.NotificationChannel
   createdAt?: Date | string
   tenant?: Prisma.TenantCreateNestedOneWithoutNotificationsInput
 }
@@ -253,7 +253,7 @@ export type NotificationUncheckedCreateInput = {
   id?: string
   title: string
   message: string
-  sentVia: string
+  sentVia: $Enums.NotificationChannel
   tenantId?: string | null
   createdAt?: Date | string
 }
@@ -262,7 +262,7 @@ export type NotificationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
-  sentVia?: Prisma.StringFieldUpdateOperationsInput | string
+  sentVia?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tenant?: Prisma.TenantUpdateOneWithoutNotificationsNestedInput
 }
@@ -271,7 +271,7 @@ export type NotificationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
-  sentVia?: Prisma.StringFieldUpdateOperationsInput | string
+  sentVia?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -280,7 +280,7 @@ export type NotificationCreateManyInput = {
   id?: string
   title: string
   message: string
-  sentVia: string
+  sentVia: $Enums.NotificationChannel
   tenantId?: string | null
   createdAt?: Date | string
 }
@@ -289,7 +289,7 @@ export type NotificationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
-  sentVia?: Prisma.StringFieldUpdateOperationsInput | string
+  sentVia?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -297,7 +297,7 @@ export type NotificationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
-  sentVia?: Prisma.StringFieldUpdateOperationsInput | string
+  sentVia?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   tenantId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -381,11 +381,15 @@ export type NotificationUncheckedUpdateManyWithoutTenantNestedInput = {
   deleteMany?: Prisma.NotificationScalarWhereInput | Prisma.NotificationScalarWhereInput[]
 }
 
+export type EnumNotificationChannelFieldUpdateOperationsInput = {
+  set?: $Enums.NotificationChannel
+}
+
 export type NotificationCreateWithoutTenantInput = {
   id?: string
   title: string
   message: string
-  sentVia: string
+  sentVia: $Enums.NotificationChannel
   createdAt?: Date | string
 }
 
@@ -393,7 +397,7 @@ export type NotificationUncheckedCreateWithoutTenantInput = {
   id?: string
   title: string
   message: string
-  sentVia: string
+  sentVia: $Enums.NotificationChannel
   createdAt?: Date | string
 }
 
@@ -430,7 +434,7 @@ export type NotificationScalarWhereInput = {
   id?: Prisma.StringFilter<"Notification"> | string
   title?: Prisma.StringFilter<"Notification"> | string
   message?: Prisma.StringFilter<"Notification"> | string
-  sentVia?: Prisma.StringFilter<"Notification"> | string
+  sentVia?: Prisma.EnumNotificationChannelFilter<"Notification"> | $Enums.NotificationChannel
   tenantId?: Prisma.StringNullableFilter<"Notification"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Notification"> | Date | string
 }
@@ -439,7 +443,7 @@ export type NotificationCreateManyTenantInput = {
   id?: string
   title: string
   message: string
-  sentVia: string
+  sentVia: $Enums.NotificationChannel
   createdAt?: Date | string
 }
 
@@ -447,7 +451,7 @@ export type NotificationUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
-  sentVia?: Prisma.StringFieldUpdateOperationsInput | string
+  sentVia?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -455,7 +459,7 @@ export type NotificationUncheckedUpdateWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
-  sentVia?: Prisma.StringFieldUpdateOperationsInput | string
+  sentVia?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -463,7 +467,7 @@ export type NotificationUncheckedUpdateManyWithoutTenantInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   message?: Prisma.StringFieldUpdateOperationsInput | string
-  sentVia?: Prisma.StringFieldUpdateOperationsInput | string
+  sentVia?: Prisma.EnumNotificationChannelFieldUpdateOperationsInput | $Enums.NotificationChannel
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -528,7 +532,7 @@ export type $NotificationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     id: string
     title: string
     message: string
-    sentVia: string
+    sentVia: $Enums.NotificationChannel
     tenantId: string | null
     createdAt: Date
   }, ExtArgs["result"]["notification"]>
@@ -958,7 +962,7 @@ export interface NotificationFieldRefs {
   readonly id: Prisma.FieldRef<"Notification", 'String'>
   readonly title: Prisma.FieldRef<"Notification", 'String'>
   readonly message: Prisma.FieldRef<"Notification", 'String'>
-  readonly sentVia: Prisma.FieldRef<"Notification", 'String'>
+  readonly sentVia: Prisma.FieldRef<"Notification", 'NotificationChannel'>
   readonly tenantId: Prisma.FieldRef<"Notification", 'String'>
   readonly createdAt: Prisma.FieldRef<"Notification", 'DateTime'>
 }

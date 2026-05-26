@@ -18,21 +18,21 @@ generator client {
 //
 
 model User {
-  id                     String      @id @default(uuid())
+  id                     String   @id @default(uuid())
 
   fullName               String
 
-  email                  String      @unique
+  email                  String   @unique
   password               String
 
-  phoneNumber            String?     @unique
+  phoneNumber            String?  @unique
 
-  role                   UserRole    @default(USER)
+  role                   UserRole @default(USER)
 
-  isEmailVerified        Boolean     @default(false)
+  isEmailVerified        Boolean  @default(false)
 
   emailVerificationToken String?
- 
+
   resetPasswordToken     String?
   resetPasswordExpires   DateTime?
 
@@ -40,8 +40,8 @@ model User {
 
   properties             Property[]
 
-  createdAt              DateTime    @default(now())
-  updatedAt              DateTime    @updatedAt
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 }
 
 //
@@ -58,10 +58,28 @@ model Property {
   ownerId String
   owner   User   @relation(fields: [ownerId], references: [id])
 
-  units Unit[]
+  units    Unit[]
+  images   PropertyImage[]
+  expenses Expense[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([ownerId])
+}
+
+model PropertyImage {
+  id        String @id @default(uuid())
+  url       String
+  caption   String?
+  sortOrder Int    @default(0)
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([propertyId])
 }
 
 //
@@ -69,21 +87,27 @@ model Property {
 //
 
 model Unit {
-  id              String @id @default(uuid())
+  id              String    @id @default(uuid())
   unitNumber      String
-  rentAmount      Float
-  waterBill       Float?
-  electricityBill Float?
+  rentAmount      Decimal   @db.Decimal(10, 2)
+  waterBill       Decimal?  @db.Decimal(10, 2)
+  electricityBill Decimal?  @db.Decimal(10, 2)
 
   status UnitStatus @default(VACANT)
 
   propertyId String
   property   Property @relation(fields: [propertyId], references: [id])
 
-  leases Lease[]
+  leases          Lease[]
+  rentAdjustments RentAdjustment[]
+  maintenanceRequests MaintenanceRequest[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([propertyId, unitNumber])
+  @@index([propertyId])
+  @@index([status])
 }
 
 //
@@ -97,9 +121,9 @@ model Tenant {
   phoneNumber String
   nationalId  String? @unique
 
-  leases Lease[]
-
-  notifications Notification[]
+  leases              Lease[]
+  notifications       Notification[]
+  maintenanceRequests  MaintenanceRequest[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -121,14 +145,19 @@ model Lease {
   startDate DateTime
   endDate   DateTime?
 
-  depositAmount Float
+  depositAmount Decimal @db.Decimal(10, 2)
 
-  status LeaseStatus @default(ACTIVE)
+  status       LeaseStatus @default(ACTIVE)
+  terminatedAt DateTime?
 
   invoices Invoice[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([tenantId])
+  @@index([unitId])
+  @@index([status])
 }
 
 //
@@ -144,11 +173,12 @@ model Invoice {
   month Int
   year  Int
 
-  rentAmount    Float
-  utilityAmount Float
-  totalAmount   Float
+  rentAmount    Decimal @db.Decimal(10, 2)
+  utilityAmount Decimal @db.Decimal(10, 2)
+  totalAmount   Decimal @db.Decimal(10, 2)
 
   dueDate DateTime
+  paidAt  DateTime?
 
   status InvoiceStatus @default(PENDING)
 
@@ -156,6 +186,10 @@ model Invoice {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([leaseId, month, year])
+  @@index([leaseId])
+  @@index([status])
 }
 
 //
@@ -168,15 +202,107 @@ model Payment {
   invoiceId String
   invoice   Invoice @relation(fields: [invoiceId], references: [id])
 
-  amount Float
+  amount Decimal @db.Decimal(10, 2)
 
   method PaymentMethod
 
-  mpesaCode String?
+  mpesaCode String? @unique
 
   paidAt DateTime @default(now())
 
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([invoiceId])
+}
+
+//
+// MAINTENANCE REQUESTS
+//
+
+model MaintenanceRequest {
+  id String @id @default(uuid())
+
+  title       String
+  description String
+
+  priority MaintenancePriority @default(MEDIUM)
+  status   MaintenanceStatus   @default(OPEN)
+
+  unitId String
+  unit   Unit   @relation(fields: [unitId], references: [id])
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  images     MaintenanceImage[]
+
+  resolvedAt DateTime?
+  notes      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([unitId])
+  @@index([tenantId])
+  @@index([status])
+}
+
+model MaintenanceImage {
+  id  String @id @default(uuid())
+  url String
+
+  maintenanceRequestId String
+  maintenanceRequest   MaintenanceRequest @relation(fields: [maintenanceRequestId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([maintenanceRequestId])
+}
+
+//
+// EXPENSES
+//
+
+model Expense {
+  id String @id @default(uuid())
+
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id])
+
+  category    ExpenseCategory
+  amount      Decimal         @db.Decimal(10, 2)
+  description String
+  date        DateTime
+  receiptUrl  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([propertyId])
+  @@index([category])
+  @@index([date])
+}
+
+//
+// RENT ADJUSTMENTS
+//
+
+model RentAdjustment {
+  id String @id @default(uuid())
+
+  unitId String
+  unit   Unit   @relation(fields: [unitId], references: [id])
+
+  previousAmount Decimal  @db.Decimal(10, 2)
+  newAmount      Decimal  @db.Decimal(10, 2)
+  effectiveDate  DateTime
+  reason         String?
+
+  createdAt DateTime @default(now())
+
+  @@index([unitId])
+  @@index([effectiveDate])
 }
 
 //
@@ -189,12 +315,14 @@ model Notification {
   title   String
   message String
 
-  sentVia String
+  sentVia NotificationChannel
 
   tenantId String?
   tenant   Tenant? @relation(fields: [tenantId], references: [id])
 
   createdAt DateTime @default(now())
+
+  @@index([tenantId])
 }
 
 //
@@ -229,4 +357,35 @@ enum PaymentMethod {
   MPESA
   CASH
   BANK
+}
+
+enum MaintenancePriority {
+  LOW
+  MEDIUM
+  HIGH
+  EMERGENCY
+}
+
+enum MaintenanceStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum ExpenseCategory {
+  REPAIR
+  INSURANCE
+  TAX
+  UTILITY
+  SECURITY
+  GARBAGE
+  OTHER
+}
+
+enum NotificationChannel {
+  EMAIL
+  SMS
+  PUSH
+  IN_APP
 }

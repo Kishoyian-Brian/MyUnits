@@ -53,11 +53,16 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Property: 'Property',
+  PropertyImage: 'PropertyImage',
   Unit: 'Unit',
   Tenant: 'Tenant',
   Lease: 'Lease',
   Invoice: 'Invoice',
   Payment: 'Payment',
+  MaintenanceRequest: 'MaintenanceRequest',
+  MaintenanceImage: 'MaintenanceImage',
+  Expense: 'Expense',
+  RentAdjustment: 'RentAdjustment',
   Notification: 'Notification'
 } as const
 
@@ -110,6 +115,18 @@ export const PropertyScalarFieldEnum = {
 export type PropertyScalarFieldEnum = (typeof PropertyScalarFieldEnum)[keyof typeof PropertyScalarFieldEnum]
 
 
+export const PropertyImageScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  caption: 'caption',
+  sortOrder: 'sortOrder',
+  propertyId: 'propertyId',
+  createdAt: 'createdAt'
+} as const
+
+export type PropertyImageScalarFieldEnum = (typeof PropertyImageScalarFieldEnum)[keyof typeof PropertyImageScalarFieldEnum]
+
+
 export const UnitScalarFieldEnum = {
   id: 'id',
   unitNumber: 'unitNumber',
@@ -146,6 +163,7 @@ export const LeaseScalarFieldEnum = {
   endDate: 'endDate',
   depositAmount: 'depositAmount',
   status: 'status',
+  terminatedAt: 'terminatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -162,6 +180,7 @@ export const InvoiceScalarFieldEnum = {
   utilityAmount: 'utilityAmount',
   totalAmount: 'totalAmount',
   dueDate: 'dueDate',
+  paidAt: 'paidAt',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -177,10 +196,66 @@ export const PaymentScalarFieldEnum = {
   method: 'method',
   mpesaCode: 'mpesaCode',
   paidAt: 'paidAt',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 } as const
 
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const MaintenanceRequestScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  priority: 'priority',
+  status: 'status',
+  unitId: 'unitId',
+  tenantId: 'tenantId',
+  resolvedAt: 'resolvedAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type MaintenanceRequestScalarFieldEnum = (typeof MaintenanceRequestScalarFieldEnum)[keyof typeof MaintenanceRequestScalarFieldEnum]
+
+
+export const MaintenanceImageScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  maintenanceRequestId: 'maintenanceRequestId',
+  createdAt: 'createdAt'
+} as const
+
+export type MaintenanceImageScalarFieldEnum = (typeof MaintenanceImageScalarFieldEnum)[keyof typeof MaintenanceImageScalarFieldEnum]
+
+
+export const ExpenseScalarFieldEnum = {
+  id: 'id',
+  propertyId: 'propertyId',
+  category: 'category',
+  amount: 'amount',
+  description: 'description',
+  date: 'date',
+  receiptUrl: 'receiptUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ExpenseScalarFieldEnum = (typeof ExpenseScalarFieldEnum)[keyof typeof ExpenseScalarFieldEnum]
+
+
+export const RentAdjustmentScalarFieldEnum = {
+  id: 'id',
+  unitId: 'unitId',
+  previousAmount: 'previousAmount',
+  newAmount: 'newAmount',
+  effectiveDate: 'effectiveDate',
+  reason: 'reason',
+  createdAt: 'createdAt'
+} as const
+
+export type RentAdjustmentScalarFieldEnum = (typeof RentAdjustmentScalarFieldEnum)[keyof typeof RentAdjustmentScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
