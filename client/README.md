@@ -1,73 +1,39 @@
-# React + TypeScript + Vite
+# MyUnits Web (Monorepo)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+pnpm workspaces + Turborepo.
 
-Currently, two official plugins are available:
+## Apps
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| App | Path | Dev command | Role |
+|-----|------|-------------|------|
+| Landing | `apps/landing` | `pnpm --filter @myunits/landing dev` | Marketing + **central auth** (login, register, forgot password) |
+| Admin | `apps/admin` | `pnpm --filter @myunits/admin dev` | Admin module (after login redirect) |
+| Landlord | `apps/landlord` | `pnpm --filter @myunits/landlord dev` | Landlord module |
+| Tenant | `apps/tenant` | `pnpm --filter @myunits/tenant dev` | Tenant portal |
 
-## React Compiler
+**Auth flow:** Users sign in on the landing app only. After login, `postAuthRedirect` sends them to the correct app by role. Module apps do not host login/register pages — see [docs/architecture.md](./docs/architecture.md).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Packages
 
-## Expanding the ESLint configuration
+- `@myunits/api-client` — HTTP client + API modules
+- `@myunits/auth` — auth hooks, guards, session utils
+- `@myunits/ui` — shared UI components
+- `@myunits/forms` — form components + Zod helpers
+- `@myunits/types` — shared TypeScript types
+- `@myunits/utils` — formatters, validators, helpers
+- `@myunits/notifications` — socket, toast, email helpers
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Setup
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cp .env.example .env
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Scaffold script
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Re-run folder scaffold (creates missing files only):
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+./scripts/scaffold-structure.sh
 ```
